@@ -13,25 +13,32 @@
 <body>
   <!-- Header -->
     <section class="header">
-      <div class="nav">
+      <div class="container">
         <div class="nav-box">
           <h1 class="nav-box__heading">TODO</h1>
           <div>
-            <button class="nav-box__btnMoon nav-box__btn onclick="toggleDarkMode()"">
+            <button class="nav-box__btnMoon nav-box__btn onclick="toggleDarkMode()">
               <img class="nav-box__moonImg" src="./img/moon.svg" alt="">
             </button >
-            <button class="nav-box__btnSun nav-box__btn onclick="toggleDarkMode()"">
+            <button class="nav-box__btnSun nav-box__btn onclick="toggleDarkMode()">
               <img class="nav-box__sunImg" src="./img/sun.svg" alt="">
             </button >
           </div>
         </div>
 
+        <div id="todooo"></div>
+        <div class="todo">
         <form class="form">
           <input class="input" type="text" name="todo" placeholder="Create a new todo…" autocomplete="off">
-        <!-- <button type="submit"></button> -->
-      </form>
+        </form>
 
-      <div class="todo">
+
+
+
+      </div>
+      
+      <div class="result-list">
+
         <ul class="list">
         </ul>
         <div class="button-wrapper">
@@ -41,8 +48,7 @@
           <button class="btnStyle btn-clearAll">clear all</button>
         </div>
       </div>
-
-      </div>
+    </div>
     </section>
 
 

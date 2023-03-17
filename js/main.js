@@ -3,6 +3,7 @@
 // 1. HTML elementlarni tanlab oldik
 let elMoonBtn = document.querySelector(".nav-box__btnMoon");
 let elSunBtn = document.querySelector(".nav-box__btnSun");
+let elHeader = document.querySelector(".header");
 let body = document.querySelector("body");
 let elForm = document.querySelector(".form");
 let elInput = document.querySelector(".input");
@@ -16,27 +17,26 @@ let elCompleteBtn = document.querySelector(".btn-completed");
 let elUncompleteBtn = document.querySelector(".btn-uncompleted");
 let elClearAllBtn = document.querySelector(".btn-clearAll");
 
-console.log(elClearAllBtn);
 
 // toggle color
 elSunBtn.style.display = "none";
 elMoonBtn.addEventListener("click", function(){
   elMoonBtn.style.display = "none";
   elSunBtn.style.display = "inline";
-  body.classList.toggle('dark-mode');
+  // body.classList.toggle('dark-mode');
+  body.classList.add('dark')
 })
 
 elSunBtn.addEventListener("click", function(){
   elSunBtn.style.display = "none";
   elMoonBtn.style.display = "inline";
-  body.classList.toggle('dark-mode');
+  body.classList.remove('dark')
 })
 
 
-// 2. New array for todos
+//  New array for todos
 const todos = [];
 
-// 10. Ul quloq solyabmiz chunki bu EVENT DELEGATION:
 elList.addEventListener("click", function (evt) {
   if (evt.target.matches(".delete-btn")) {
     let btnTodoId = evt.target.dataset.todoId * 1;
@@ -60,7 +60,7 @@ elList.addEventListener("click", function (evt) {
   }
 });
 
-// 8. Todos arrayini aylanib chiqib har bir objectdagi malumotlarni htmlda uiga chiqarish uchun funksiya
+
 const renderTodos = function (arr, element) {
   elAllCount.textContent = todos.length;
   elCompletedCount.textContent = todos.filter(
@@ -71,75 +71,69 @@ const renderTodos = function (arr, element) {
   }).length;
 
   arr.forEach(function (todo) {
-    let newLi = document.createElement("li");
     let newCheckbox = document.createElement("input");
+    let newLi = document.createElement("li");
     let newDeleteBtn = document.createElement("button");
+    let text = document.createElement('h4')
 
     newCheckbox.type = "checkbox";
 
-    newDeleteBtn.classList.add("delete-btn");
     newCheckbox.classList.add("checkbox-btn");
+    newLi.classList.add("ul-item");
+    newDeleteBtn.classList.add("delete-btn");
+    text.classList.add('text-todo')
 
-    newLi.textContent = todo.title;
-    newDeleteBtn.textContent = "X";
+    text.textContent = todo.title;
 
-    //11. DATASET QO'SHDIK
+
+
     newDeleteBtn.dataset.todoId = todo.id;
     newCheckbox.dataset.checkId = todo.id;
 
     if (todo.isCompleted) {
       newCheckbox.checked = true;
-      newLi.style.textDecoration = "line-through";
-    }
+      text.style.textDecoration = "line-through";
+    }       
 
-    element.appendChild(newLi);
     newLi.appendChild(newCheckbox);
+    element.appendChild(newLi); 
+    newLi.appendChild(text)
     newLi.appendChild(newDeleteBtn);
   });
 };
 
-// 3. Formaga clickiga quloq soldik
+
 elForm.addEventListener("submit", function (evt) {
   evt.preventDefault();
-
-  // 4. input value
   let inputValue = elInput.value;
+  
+  if(inputValue == "") return
 
-  // 5. Har bir todo uchun yangi object yaratib oldik
   let newTodo = {
     id: todos[todos.length - 1]?.id + 1 || 0,
     title: inputValue,
     isCompleted: false,
   };
-
-  // 6. Har bit todo objecttini todos arrayiga push qilyabdi
   todos.push(newTodo);
-
   elList.innerHTML = null;
   elInput.value = null;
-
-  // 9. todolarni render qilyabmiz
   renderTodos(todos, elList);
 });
 
-//ALL BUTTON
+
 elAllBtn.addEventListener("click", function () {
   elList.innerHTML = null;
-
   renderTodos(todos, elList);
 });
 
-// COMPLETE BUTTON
+
 elCompleteBtn.addEventListener("click", function () {
   const filteredComplete = todos.filter((todo) => todo.isCompleted);
-
   elList.innerHTML = null;
-
   renderTodos(filteredComplete, elList);
 });
 
 
-// unclapted
 elUncompleteBtn.addEventListener("click", function () {
   const filteredComplete = todos.filter((todo) => !todo.isCompleted);
 
@@ -148,11 +142,5 @@ elUncompleteBtn.addEventListener("click", function () {
   renderTodos(filteredComplete, elList);
 });
 
-
-// all clear
-elClearAllBtn.addEventListener("click", function() {
-  todos = [];
-  elList.innerHTML = null;
-})
 
 
